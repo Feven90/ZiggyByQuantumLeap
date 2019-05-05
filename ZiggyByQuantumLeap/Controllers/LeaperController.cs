@@ -34,5 +34,12 @@ namespace ZiggyByQuantumLeap.Controllers
             return Created($"api/leaper/{newLeaper.Id}", newLeaper);
         }
 
+        [HttpGet("getLeapers")]
+        public ActionResult GetAllLeapers()
+        {
+            var allLeapers = _leaperRepository.GetAllLeapers();
+            return Ok(allLeapers);
+        }
+
     }
 }

@@ -19,7 +19,7 @@ namespace ZiggyByQuantumLeap.Models
                     Insert into Leaper(name,age)
                     Output inserted.*
                     values(@name,@age)",
-                new { Name = name, Age = age});
+                new { Name = name, Age = age });
 
                 if (Leapers != null)
                 {
@@ -28,5 +28,21 @@ namespace ZiggyByQuantumLeap.Models
                 throw new Exception("No user is created");
             }
         }
+
+        public Leaper GetAllLeapers()
+        { 
+            using (var db= new SqlConnection(ConnectionString))
+            {
+                var Leapers = db.QueryFirstOrDefault<Leaper>(@"
+                    Select * from Leaper");
+               
+                if(Leapers != null)
+                {
+                    return Leapers;
+                }
+                throw new Exception("No user is found");
+            }
+            }
+
     }
 }
