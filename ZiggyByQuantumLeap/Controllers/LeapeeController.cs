@@ -33,6 +33,12 @@ namespace ZiggyByQuantumLeap.Controllers
             var newLeapee = _leapeeRepository.AddLeapee(createRequest.Name, createRequest.Age);
             return Created($"api/leapee/{newLeapee.Id}", newLeapee);
         }
+        [HttpGet("getLeapees")]
+        public ActionResult GetAllLeapees()
+        {
+            var allLeapees = _leapeeRepository.GetAllLeapees();
+            return Ok(allLeapees);
+        }
 
     }
 }
