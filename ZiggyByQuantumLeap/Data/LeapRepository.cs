@@ -17,7 +17,7 @@ namespace ZiggyByQuantumLeap.Data
             using (var db = new SqlConnection(ConnectionString))
             {
                 var parameter = new { LeaperId = leaperId, LeapeeId = leapeeId, Cost = cost };
-                var budget = db.QueryFirstOrDefault<Leaper>($@"select Budget from Leaper where id = @leaperId",parameter ).Budget;
+                var budget = db.QueryFirstOrDefault<Leaper>(@"select Budget from Leaper where id = @leaperId",parameter ).Budget;
                 //var cost = db.QueryFirstOrDefault<Leap>(@"select")
 
                 if (budget >= @cost)
@@ -28,6 +28,11 @@ namespace ZiggyByQuantumLeap.Data
                      VALUES
                            ( @LeaperId, @LeapeeId, @Cost)",
                              parameter );
+                    var budgetLeft = budget - cost;
+                    var updateBudget = db.QueryFirstOrDefault<Leaper>(@"UPDATE [dbo].[Leaper]
+                                                                     SET [Budget] = @budgetLeft
+                                                                     WHERE id = @leaperId", 
+                                                                     new { LeaperId = leaperId, BudgetLeft = budgetLeft });
                 }
              
                 throw new Exception("No leap is created, leaper has less budget");
