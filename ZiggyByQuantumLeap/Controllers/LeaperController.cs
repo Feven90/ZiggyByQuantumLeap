@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ZiggyByQuantumLeap.Data;
 using ZiggyByQuantumLeap.Models;
 using ZiggyByQuantumLeap.Validator;
 
@@ -30,7 +31,7 @@ namespace ZiggyByQuantumLeap.Controllers
 
                 return BadRequest(new { error = "users must have a username" });
 
-            var newLeaper = _leaperRepository.AddLeaper(createRequest.Name, createRequest.Age);
+            var newLeaper = _leaperRepository.AddLeaper(createRequest.Name, createRequest.Age, createRequest.Budget);
             return Created($"api/leaper/{newLeaper.Id}", newLeaper);
         }
 

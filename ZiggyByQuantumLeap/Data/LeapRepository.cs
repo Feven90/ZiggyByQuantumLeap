@@ -12,22 +12,25 @@ namespace ZiggyByQuantumLeap.Data
     {
         const string ConnectionString = "Server=localhost;Database=QuantumLeap;Trusted_Connection=True;";
 
-        public Leap AddLeapeeToLeaper(int leaperId, int leapeeId)
+        public Leap AddLeapeeToLeaper(int leapeeId, int leaperId, decimal cost)
         {
             using (var db = new SqlConnection(ConnectionString))
             {
-                var Leaps = db.Query<Leap>($@"INSERT INTO [dbo].[Leap]
+                var parameter = new { LeaperId = leaperId, LeapeeId = leapeeId, Cost = cost };
+                var budget = db.QueryFirstOrDefault<Leaper>($@"select Budget from Leaper where id = @leaperId",parameter ).Budget;
+                //var cost = db.QueryFirstOrDefault<Leap>(@"select")
+
+                if (budget >= @cost)
+                {
+                    var Leaps = db.QueryFirstOrDefault<Leap>($@"INSERT INTO [dbo].[Leap]
                            ( LeaperId, LeapeeId , Cost)
                             Output inserted.*  
                      VALUES
-                           ( @LeaperId, @LeapeeId, @Cost)", 
-                           new {LeaperId = leaperId, LeapeeId= leapeeId}).ToList() ;
-
-                if (Leaps != null)
-                {
-                    return Leaps;
+                           ( @LeaperId, @LeapeeId, @Cost)",
+                             parameter );
                 }
-                throw new Exception("No leap is created");
+             
+                throw new Exception("No leap is created, leaper has less budget");
 
             }
 

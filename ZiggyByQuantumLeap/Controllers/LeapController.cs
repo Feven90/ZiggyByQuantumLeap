@@ -31,15 +31,15 @@ namespace ZiggyByQuantumLeap.Controllers
 
                // return BadRequest(new { error = "users must have a username" });
 
-            var newLeap = _leapRepository.AddLeap(createRequest.LeapeeId, createRequest.LeaperId);
-            return Created($"api/leaper/{newLeaper.Id}", newLeaper);
+            var newLeap = _leapRepository.AddLeapeeToLeaper(createRequest.LeapeeId, createRequest.LeaperId, createRequest.Cost);
+            return Created($"api/leaper", newLeap);
         }
 
-        [HttpGet("getLeapers")]
-        public ActionResult GetAllLeapers()
-        {
-            var allLeapers = _leaperRepository.GetAllLeapers();
-            return Ok(allLeapers);
-        }
+        //[HttpGet("getLeapers")]
+        //public ActionResult GetAllLeapers()
+        //{
+        //    var allLeapers = _leaperRepository.GetAllLeapers();
+        //    return Ok(allLeapers);
+        //}
     }
 }
