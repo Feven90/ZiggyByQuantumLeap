@@ -28,5 +28,19 @@ namespace ZiggyByQuantumLeap.Models
                 throw new Exception("No user is created");
             }
         }
+        public Leapee GetAllLeapees()
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var Leapees = db.QueryFirstOrDefault<Leapee>(@"
+                    Select * from Leapee");
+
+                if (Leapees != null)
+                {
+                    return Leapees;
+                }
+                throw new Exception("No user is found");
+            }
+        }
     }
 }
